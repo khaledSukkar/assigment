@@ -35,8 +35,7 @@ class InvoiceDetail(models.Model):
 
         if self.unit_price <= 0:
             raise ValidationError("Unit price must be a positive decimal number.")
-        if self.price <= 0:
-            raise ValidationError("Price must be a positive decimal number.")
+        
     
 
     def save(self, *args, **kwargs):
