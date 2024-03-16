@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.utils import timezone
 from .models import Invoice, InvoiceDetail
+from drf_writable_nested import WritableNestedModelSerializer
 
 
 class InvoiceDetailSerializer(serializers.ModelSerializer):
@@ -30,7 +31,7 @@ class InvoiceDetailSerializer(serializers.ModelSerializer):
         }
 
 
-class InvoiceSerializer(serializers.ModelSerializer):
+class InvoiceSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
     details = InvoiceDetailSerializer(many=True, required=False)
  
     def validate_date(self, value):

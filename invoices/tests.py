@@ -37,8 +37,8 @@ class InvoiceViewSetTests(APITestCase):
             'date': '2024-03-16',
             'customer_name': 'Jo', # Short name
             'details': [
-                {'description': 'Product A', 'quantity': 2, 'unit_price': 10.0},
-                {'description': 'Product B', 'quantity': 1, 'unit_price': 20.0}
+                {'id':3 ,'description': 'Product A', 'quantity': 2, 'unit_price': 10.0},
+                {'id':4,'description': 'Product B', 'quantity': 1, 'unit_price': 20.0}
             ]
         }
         response = self.client.post(url, data, format='json')

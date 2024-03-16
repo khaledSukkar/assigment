@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 django = "*"
 djangorestframework = "*"
+drf-writable-nested = "*"
 
 [dev-packages]
 

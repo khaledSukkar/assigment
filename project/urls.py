@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from invoices.views import InvoiceViewSet
+from invoices.views import InvoiceViewSet, InvoiceViewSet
 
 router = routers.DefaultRouter()
 router.register(r"invoices", InvoiceViewSet)
