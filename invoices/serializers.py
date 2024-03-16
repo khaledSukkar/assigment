@@ -5,7 +5,34 @@ from .models import Invoice, InvoiceDetail
 
 class InvoiceDetailSerializer(serializers.ModelSerializer):
     """This is the invoice detail serializer"""
+    def validate_positive_decimal(self, value, field_name):
+        """
+        Validate a field to ensure that it is a positive decimal number.
+        """
+        if value <= 0:
+            raise serializers.ValidationError(f"{field_name.capitalize()} must be a positive decimal number")
+        return value
 
+    def validate_unit_price(self, value):
+        return self.validate_positive_decimal(value, "unit_price")
+    
+    class Meta:
+        model = InvoiceDetail
+        fields = [
+            'id',
+            'description',
+            'quantity',
+            'unit_price',
+            'price',
+        ]
+        extra_kwargs = {
+            'price': {'read_only': True}
+        }
+
+
+class InvoiceSerializer(serializers.ModelSerializer):
+    details = InvoiceDetailSerializer(many=True, required=False)
+ 
     def validate_date(self, value):
         """ Validate the 'date' field to ensure that it is not in the future"""
         if value > timezone.now().date():
@@ -17,32 +44,14 @@ class InvoiceDetailSerializer(serializers.ModelSerializer):
         if len(value) < 3:
             raise serializers.ValidationError("Customer name must be at least 3 characters long")
         return value
-    
-    class Meta:
-        model = InvoiceDetail
-        fields = "__all__"
 
-
-class InvoiceSerializer(serializers.ModelSerializer):
-    details = InvoiceDetailSerializer(many=True, read_only=True)
-
-    def validate_positive_decimal(self, value, field_name):
-        """
-        Validate a field to ensure that it is a positive decimal number.
-        """
-        if value <= 0:
-            raise serializers.ValidationError(f"{field_name.capitalize()} must be a positive decimal number")
-        return value
-
-    def validate_quantity(self, value):
-        return self.validate_positive_decimal(value, "quantity")
-
-    def validate_unit_price(self, value):
-        return self.validate_positive_decimal(value, "unit_price")
-
-    def validate_price(self, value):
-        return self.validate_positive_decimal(value, "price") 
-    
     class Meta:
         model = Invoice
-        fields = "__all__"
+        fields = [
+            'id',
+            'date',
+            'customer_name',
+            'details'
+        ]
+
+        
