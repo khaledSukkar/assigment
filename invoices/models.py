@@ -14,7 +14,7 @@ class InvoiceDetail(models.Model):
     """This is the model for invoice detail"""
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name="details")
     description = models.TextField()
-    quantity = models.PositiveIntegerField(default=1)
+    quantity = models.PositiveIntegerField()
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
